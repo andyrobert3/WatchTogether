@@ -6,7 +6,7 @@ const app = express();
 
 app.use(express.static('public'));
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
   console.log(`Server running at ${port}`);
 });
@@ -30,6 +30,4 @@ io.on('connection', socket => {
     socket.on('seek', data => {
       socket.broadcast.emit('seek', data);
     });
-
-
-})
+});
