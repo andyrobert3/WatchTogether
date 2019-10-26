@@ -1,4 +1,4 @@
-const socket = io.connect('http://localhost:3000');
+const socket = io.connect('http://localhost:5000');
 
 // time constants
 const interval = 500;
@@ -56,6 +56,30 @@ const onPlayerStateChange = event => {
     socket.emit('pause');
   }
 }
+  
+function youtubeParser(url){
+  var videoid = url.match(/(?:https?:\/{2})?(?:w{3}\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\?v=|\/)([^\s&]+)/);
+  if (videoid != null) {
+    console.log("video id = ",videoid[1]);
+    return videoid[1];
+  } else { 
+    console.log("The youtube url is not valid.");
+    return null;
+  }
+}
+
+
+function changeVideo() {
+  let videoUrl = document.getElementById("video_input").value;
+  const videoId = youtubeParser(videoUrl);
+
+  if (videoId == null) {
+    alert(`${videoUrl} is an invalid URL`);
+  } else {
+    player.loadVideoById(videoId);
+    socket.emit('changeVideo', videoId);
+  }
+}
 
 // server socket listeners 
 socket.on('seek', data => {
@@ -63,8 +87,15 @@ socket.on('seek', data => {
     player.seekTo(data, true);
 });
 
+socket.on('changeVideo', videoId => {
+  if (player)
+    player.loadVideoById(videoId);
+});
+
 socket.on('play', () => {
-  player.playVideo();
+  if (typeof player !== 'undefined') {
+    player.playVideo();
+  }
 });
 
 socket.on('pause', () => {
