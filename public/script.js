@@ -3,7 +3,7 @@ const socket = io.connect('http://localhost:5000');
 // time constants
 const interval = 500;
 const margin = 0.07;
-const latency = 0.1;
+const latency = 0.05;
 
 // initial setup
 let tag = document.createElement('script');
@@ -22,6 +22,10 @@ function onYouTubeIframeAPIReady() {
     events: {
       'onReady': onPlayerReady,
       'onStateChange': onPlayerStateChange,
+    },
+    playerVars: {
+      autoplay: 0,
+      rel: 0
     }
   });
 }
@@ -70,7 +74,7 @@ function youtubeParser(url){
 
 
 function changeVideo() {
-  let videoUrl = document.getElementById("video_input").value;
+  let videoUrl = document.getElementById("video-input").value;
   const videoId = youtubeParser(videoUrl);
 
   if (videoId == null) {

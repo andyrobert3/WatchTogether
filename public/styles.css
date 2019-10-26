@@ -1,7 +1,21 @@
+body {
+  background-color: rgb(249,249,249);
+}
 #player {
-  margin: 0 30%;
+  margin: 5% auto 15px auto;
+  display: block;
 }
 
-html {
-  background-color: gray;
+#video-input {
+  width: 250px;
+  margin: 0 auto;
 }
+
+.video-form {
+  text-align: center;
+}
+
+.header {
+  color: white;
+}
+
